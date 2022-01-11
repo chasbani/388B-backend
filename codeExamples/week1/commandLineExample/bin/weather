@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+// require('../')()
+var index = require('../index')
+index()
+//console.log("Another way to run a node application");
