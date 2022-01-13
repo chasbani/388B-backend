@@ -405,3 +405,5 @@ const presidents = [
       party: "Republican"
     }
   ];
+
+  module.exports = presidents;
