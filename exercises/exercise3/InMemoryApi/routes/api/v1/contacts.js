@@ -11,7 +11,9 @@ You will need to define the following routes:
   This route will need to responde to 4 requests:
   1) GET: it will respond with the serialized form of the requested
   resource and a response code of 200. You will receive the :id from 
-  the req.params.id property.
+  the req.params.id property. If the resource (contact) is not found in your "database",
+  then you should respond with a http status code of 404 and a message saying
+  "the resource was not found" as json.
   /api/v1/contacts?firstName=foo&lastName=bar
   2) GET: It will return all of the contacts that match the query paramaters
   you pass. If none of them match you should respond with an empty array. If more than
