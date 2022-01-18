@@ -36,9 +36,41 @@ You will need to define the following routes:
 
 let express = require('express');
 let contactsRouter = express.Router();
-
+const Contact = require('../../../models/contact');
 let contacts = [];
 
 /* Define your routes/endpoints here */
+contactsRouter.get('/', function(req, res, next) {
+  res.status(200).json(contacts);
+});
+contactsRouter.post('/', function(req, res, next) {
+  console.log(req.body);
+  let contact = new Contact(req.body["firstname"], req.body["lastname"], req.body["phoneNumber"], req.body["email"], req.body["id"]);
+  contacts.push(contact);
+  res.status(201).json(contact);
+});
+
+contactsRouter.get('/:id', function(req, res, next) {
+  res.status(200).json(contacts.filter(e => e.id == req.params.id));
+});
+contactsRouter.post('/:id', function(req, res, next) {
+  res.send('respond with a resource');
+});
+contactsRouter.put('/:id', function(req, res, next) {
+  let temp = contacts.filter((e => e.id == req.params.id));
+  if(temp.length == 0) {
+    res.status(404).json({error: "unable to update resource"});
+  } else {
+    // contacts.map();
+    res.status(201).json();
+
+  }
+
+});
+contactsRouter.delete('/:id', function(req, res, next) {
+  res.send('respond with a resource');
+});
+
+
 
 module.exports = contactsRouter;
