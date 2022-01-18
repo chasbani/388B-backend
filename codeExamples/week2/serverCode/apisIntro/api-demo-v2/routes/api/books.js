@@ -13,7 +13,7 @@ bookRouter.use('/:bookId', (req, res, next)=>{
   console.log("I run only when I match the /:bookId route")
   Book.findById( req.params.bookId, (err,book)=>{
     if(err)
-        res.status(500).send(err)
+        res.status(404).send(err)
     else {
         req.book = book;
         next()
@@ -39,7 +39,7 @@ bookRouter.route('/:bookId')
    // Book.findById(req.params.bookId, (err, book) => {
      // res.json(book)
       // when using middleware
-      res.json(req.book)
+      res.status(200).json(req.book)
     //}) 
   })
   .put((req,res) => {
@@ -62,6 +62,8 @@ bookRouter.route('/:bookId')
     Book.findById(req.params.bookId, (err, book) => {
         // with middleware
         //  req.book.remove(err => {
+        if(err)
+          res.status(404).send(err)
         book.remove(err => {
             if(err){
                 res.status(500).send(err)
@@ -73,5 +75,6 @@ bookRouter.route('/:bookId')
     })
   })
   
+    
 
 module.exports = bookRouter;
