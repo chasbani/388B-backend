@@ -44,7 +44,10 @@ let contacts = [];
 
 /* Define your routes/endpoints here */
 
-contactsRouter.get(/\\?.+/, function(req, res, next) {
+contactsRouter.get(/\\?/, function(req, res, next) {
+  if(Object.keys(req.query).length == 0) {
+    return next();
+  }
   let temp = contacts.filter(e => {
     return Object.entries(req.query).reduce(((acc, q) => {
       return acc && (e[q[0]] == q[1]);
