@@ -43,35 +43,73 @@ const Contact = require('../../../models/contact');
 let contacts = [];
 
 /* Define your routes/endpoints here */
+
+contactsRouter.get(/\\?.+/, function(req, res, next) {
+  let temp = contacts.filter(e => {
+    return Object.entries(req.query).reduce(((acc, q) => {
+      return acc && (e[q[0]] == q[1]);
+    }), true);
+  })
+    res.status(200).json(temp);
+});
+
 contactsRouter.get('/', function(req, res, next) {
   res.status(200).json(contacts);
 });
 contactsRouter.post('/', function(req, res, next) {
-  console.log(req.body);
-  let contact = new Contact(req.body["firstname"], req.body["lastname"], req.body["phoneNumber"], req.body["email"], req.body["id"]);
-  contacts.push(contact);
-  res.status(201).json(contact);
+  let contact = new Contact(req.body["firstName"], req.body["lastName"], req.body["phoneNumber"], req.body["email"]);
+  contacts[contact.id] = contact;
+  res.status(201).json("successfully added contact");
 });
 
+
 contactsRouter.get('/:id', function(req, res, next) {
-  res.status(200).json(contacts.filter(e => e.id == req.params.id));
+  let temp = contacts.filter(e => e.id == req.params.id);
+  if(temp.length == 0) {
+    res.status(404).json("the resource was not found");
+  } else {
+    res.status(200).json(temp);
+  }
 });
-contactsRouter.post('/:id', function(req, res, next) {
-  res.send('respond with a resource');
-});
+
 contactsRouter.put('/:id', function(req, res, next) {
-  let temp = contacts.filter((e => e.id == req.params.id));
+  let temp = contacts.filter(e => e.id == req.params.id);
   if(temp.length == 0) {
     res.status(404).json({error: "unable to update resource"});
   } else {
-    // contacts.map();
-    res.status(201).json();
-
+    if(req.body["firstName"] != undefined) {
+      contacts[req.params.id].firstName = req.body["firstName"];
+    }
+    if(req.body["lastName"] != undefined) {
+      contacts[req.params.id].lastName = req.body["lastName"];
+    }
+    if(req.body["phoneNumber"] != undefined) {
+      contacts[req.params.id].phoneNumber = req.body["phoneNumber"];
+    }
+    if(req.body["email"] != undefined) {
+      contacts[req.params.id].email = req.body["email"];
+    }
+    res.status(201).json(contacts[req.params.id]);
   }
 
 });
 contactsRouter.delete('/:id', function(req, res, next) {
-  res.send('respond with a resource');
+  let temp = contacts.filter(e => e.id == req.params.id);
+  if(temp.length == 0) {
+    res.status(404).json({error: "resource not found"});
+  } else {
+    let temp2;
+     contacts = contacts.reduce(((acc, e) => {
+      if(e.id == req.params.id) {
+        temp2 = e;
+        acc.push({id: -1});
+      } else {
+        acc.push(e);
+      }
+      return acc;
+    }), []);
+    res.status(201).json(temp2);
+  }
 });
 
 
