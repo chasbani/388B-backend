@@ -19,11 +19,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/books', booksRouter);
 
-const db = mongoose.connect('mongodb+srv://dbadmin:dbpassword@cmsc388b.a9mha.mongodb.net/388-arasevic?retryWrites=true&w=majority', 
+const db = mongoose.connect('mongodb+srv://dbadmin:dbpassword@cmsc388b.a9mha.mongodb.net/arasevic-exercise4?retryWrites=true&w=majority', 
     { useNewUrlParser: true,  useUnifiedTopology: true});
 module.exports = app;
