@@ -1,0 +1,1 @@
+// module to define schema for contact model
