@@ -37,3 +37,18 @@ You will need to define the following routes:
   res.status(200).json(contacts)
   res.status(201).json(data)  
   */
+
+const express = require('express');
+const contactRouter = express.Router();
+const contactController = require('../../../controllers/contactsController');
+
+contactRouter.route('/')
+    .get(contactController.getContactList)
+    .post(contactController.createContact);
+
+contactRouter.route('/:id')
+    .get(contactController.getContact)
+    .put(contactController.updateContact)
+    .delete(contactController.deleteContact)
+
+module.exports = contactRouter;

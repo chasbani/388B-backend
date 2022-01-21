@@ -9,29 +9,29 @@ module.exports = () => {
     const args = minimist(process.argv.slice(2))
     console.log("args is: ");
     console.log(args);
-    //let cmd = args._[0] || 'help'
+    let cmd = args._[1] || 'help'
   
-    //if (args.help || args.h) {
-      //cmd = 'help'
-    //}
-    let request = args.request
+    // let request = args.request
     console.log("------------")
-    console.log(request);
-    switch (request) {
+    console.log(cmd);
+    switch (cmd) {
       case 'GET':
         require('./cmds/getContacts')(args)
         break
       case 'POST':
-        require('./cmds/foo')
+        require('./cmds/createContact')(args)
         break
       case 'PUT':
-        require('./cmds/version')(args)
+        require('./cmds/updateContact')(args)
         break
       case 'DELETE':
-        require('./cmds/help')(args)
+        require('./cmds/deleteContact')(args)
         break
+      case 'HELP':
+         require('./cmds/help')(args)
+        break  
       default:
-        console.error(`"${cmd}" is not a valid command!`)
+        console.error(`"${args}" is not a valid command!`)
         break
     }
   }
