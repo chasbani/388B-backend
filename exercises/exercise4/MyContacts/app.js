@@ -6,6 +6,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const app = express();
+const contactsRouter = require('./routes/api/v1/contacts');
 
 // Set-up middleware stack
 app.use(cors());
@@ -16,13 +17,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/api/v1/contacts', contactsRouter);
 
 
 
 
 // TODO
 //Update this connection string with your directory id inside of the brackets
-const db = mongoose.connect('mongodb+srv://dbadmin:dbpassword@cmsc388b.a9mha.mongodb.net/<your_directory_id>-exercise4?retryWrites=true&w=majority', 
+const db = mongoose.connect('mongodb+srv://dbadmin:dbpassword@cmsc388b.a9mha.mongodb.net/chasbani-exercise4?retryWrites=true&w=majority', 
     { useNewUrlParser: true,  useUnifiedTopology: true})
     .catch( err => console.error(err));
 
